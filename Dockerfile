@@ -21,4 +21,4 @@ VOLUME /tmp
 
 USER 1
 
-ENTRYPOINT ["/usr/bin/transmission-daemon", "-f", "--log-info"]
+ENTRYPOINT ["/usr/bin/transmission-daemon", "-f", "--log-level=info"]
