@@ -8,9 +8,16 @@
       "customType": "regex",
       "fileMatch": ["^Dockerfile$"],
       "matchStrings": [
-        "#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)\\s+registryUrl=(?<registryUrl>\\S+)\\nENV\\s+[A-Z_]+_VERSION=\"(?<currentValue>[^\"]+)\""
+        "#\\s*renovate:\\s*datasource=(?<datasource>deb)\\s+depName=(?<depName>\\S+)\\s+registryUrl=(?<registryUrl>\\S+)\\nENV\\s+[A-Z_]+_VERSION=\"(?<currentValue>[^\"]+)\""
       ],
       "versioningTemplate": "loose"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["^Dockerfile$"],
+      "matchStrings": [
+        "#\\s*renovate:\\s*datasource=(?<datasource>github-releases)\\s+depName=(?<depName>\\S+)\\nENV\\s+[A-Z_]+_VERSION=\"(?<currentValue>[^\"]+)\""
+      ]
     }
   ]
 }
