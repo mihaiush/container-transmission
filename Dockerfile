@@ -35,4 +35,6 @@ VOLUME /tmp
 
 USER 1
 
+ENV TRANSMISSION_HOME="/var/lib/transmission-daemon"
+ENV TRANSMISSION_WEB_HOME="/usr/share/transmissionic/web"
 ENTRYPOINT ["/usr/bin/transmission-daemon", "-f", "--log-level=info"]
