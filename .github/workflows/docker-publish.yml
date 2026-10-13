@@ -1,6 +1,8 @@
 name: Build and Push Docker Image (amd64)
 
 on:
+  pull_request:
+    branches: [ "main" ]
   push:
     branches: [ "main" ]
     
@@ -9,17 +11,45 @@ permissions:
   packages: write
 
 jobs:
+  hadolint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@v3.5.0
+        with:
+          dockerfile: Dockerfile
+          failure-threshold: error
+
   build-and-push:
+    needs: hadolint
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Extract base image version from Dockerfile
-        id: dockerfile_version
+      - name: Extract data from Dockerfile
+        id: dockervars
         run: |
-          TAG=$(awk -F'"' '/TRANSMISSION_VERSION=/{print $2}' Dockerfile)
-          echo "version=${TAG}" >> $GITHUB_OUTPUT
+          if [ -x "dockervars.sh" ] ; then
+            . <(./dockervars.sh)
+          fi
+          if [ -z "$NAME" ] ; then
+            NAME=$(echo "${{ github.event.repository.name }}" | awk -F'container-' '{print $2}')
+          fi
+          echo "name=${NAME}" >> "$GITHUB_OUTPUT"
+          if [ -z "$TAG" ] ; then
+            TAG=$(echo $NAME | tr '[a-z]' '[A-Z]')
+            TAG=$(awk -F'"' '/'${TAG}'_VERSION=/{print $2}' Dockerfile)
+          fi
+          if [[ "$TAG" =~ ^[0-9]+\.[0-9]$ ]]; then
+            TAG="${TAG}.${{ github.run_number }}"
+          else
+            TAG="${TAG}-${{ github.run_number }}"
+          fi
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -35,10 +65,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ghcr.io/${{ github.repository_owner }}/transmission
+          images: ghcr.io/${{ github.repository_owner }}/${{ steps.dockervars.outputs.name }}
           tags: |
             # Fixed prefix combined with extracted Dockerfile base version
-            type=raw,value=${{ steps.dockerfile_version.outputs.version }}-${{ github.run_number }}
+            type=raw,value=${{ steps.dockervars.outputs.tag }}
             
             # Optional: Keep 'latest' tag on the main branch
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
