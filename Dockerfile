@@ -1,4 +1,4 @@
-FROM ghcr.io/mihaiush/build:26.824.32 AS build
+FROM ghcr.io/mihaiush/build:26.1020.42 AS build
 
 # renovate: datasource=deb depName=transmission-daemon registryUrl=https://deb.debian.org/debian?suite=testing&components=main&binaryArch=amd64
 ENV TRANSMISSION_VERSION="4.1.3+dfsg-1"
