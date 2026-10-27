@@ -21,7 +21,7 @@ RUN \
         /usr/share/transmission
 
 RUN \
-    curl -Ls "https://github.com/6c65726f79/Transmissionic/releases/download/${WEB_VERSION}/Transmissionic-webui-v${WEB_VERSION}.zip" >/tmp/transmissionic.zip &&\
+    curl -Ls "https://github.com/6c65726f79/Transmissionic/releases/download/v${WEB_VERSION}/Transmissionic-webui-v${WEB_VERSION}.zip" >/tmp/transmissionic.zip &&\
     mkdir -p /usr/share/transmissionic &&\
     cd /usr/share/transmissionic &&\
     unzip /tmp/transmissionic.zip &&\
