@@ -1,5 +1,8 @@
 FROM ghcr.io/mihaiush/build:26.824.32 AS build
 
+# renovate: datasource=deb depName=transmission-daemon registryUrl=https://deb.debian.org/debian?suite=testing&components=main&binaryArch=amd64
+ENV TRANSMISSION_VERSION="4.1.3+dfsg-1"
+
 # renovate: datasource=github-releases depName=6c65726f79/Transmissionic
 ENV WEB_VERSION="1.8.0"
 
@@ -8,7 +11,7 @@ RUN \
     apt-get -q -y update &&\
     apt-get -q -y dist-upgrade --auto-remove &&\
     apt-get -q -y install \
-        transmission-daemon=4.1.3+dfsg-1 \
+        transmission-daemon=${TRANSMISSION_VERSION} \
         unzip \
         curl
 
