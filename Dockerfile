@@ -1,9 +1,6 @@
 FROM ghcr.io/mihaiush/build:26.824.32 AS build
 
-# _renovate: datasource=deb depName=transmission-daemon registryUrl=https://deb.debian.org/debian?suite=testing&components=main&binaryArch=amd64
-ENV TRANSMISSION_VERSION="4.1.3+dfsg-1"
-
-# _renovate: datasource=github-releases depName=6c65726f79/Transmissionic
+# renovate: datasource=github-releases depName=6c65726f79/Transmissionic
 ENV WEB_VERSION="1.8.0"
 
 RUN \
@@ -21,7 +18,7 @@ RUN \
         /usr/share/transmission
 
 RUN \
-    curl -Ls "https://github.com/6c65726f79/Transmissionic/releases/download/v1.8.0/Transmissionic-webui-v1.8.0.zip" >/tmp/transmissionic.zip &&\
+    curl -Ls "https://github.com/6c65726f79/Transmissionic/releases/download/${WEB_VERSION}/Transmissionic-webui-v${WEB_VERSION}.zip" >/tmp/transmissionic.zip &&\
     mkdir -p /usr/share/transmissionic &&\
     cd /usr/share/transmissionic &&\
     unzip /tmp/transmissionic.zip &&\
