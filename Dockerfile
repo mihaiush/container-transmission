@@ -4,7 +4,7 @@ FROM ghcr.io/mihaiush/build:26.1027.44 AS build
 ENV TRANSMISSION_VERSION="4.1.3+dfsg-1"
 
 # renovate-regex: datasource=github-releases packageName=6c65726f79/Transmissionic
-ENV WEB_VERSION="1.8.0"
+ENV WEB_VERSION="v1.8.0"
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive &&\
@@ -21,7 +21,7 @@ RUN \
         /usr/share/transmission
 
 RUN \
-    curl -Ls "https://github.com/6c65726f79/Transmissionic/releases/download/v${WEB_VERSION}/Transmissionic-webui-v${WEB_VERSION}.zip" >/tmp/transmissionic.zip &&\
+    curl -Ls "https://github.com/6c65726f79/Transmissionic/releases/download/${WEB_VERSION}/Transmissionic-webui-${WEB_VERSION}.zip" >/tmp/transmissionic.zip &&\
     mkdir -p /usr/share/transmissionic &&\
     cd /usr/share/transmissionic &&\
     unzip /tmp/transmissionic.zip &&\
