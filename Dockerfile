@@ -1,7 +1,7 @@
 FROM ghcr.io/mihaiush/build:26.1027.44 AS build
 
 # renovate-regex: datasource=deb packageName=transmission-daemon registryUrl=https://deb.debian.org/debian?suite=testing&components=main&binaryArch=amd64
-ENV TRANSMISSION_VERSION="4.1.3+dfsg-1"
+ENV TRANSMISSION_VERSION="4.1.4+dfsg-1"
 
 # renovate-regex: datasource=github-releases packageName=6c65726f79/Transmissionic
 ENV WEB_VERSION="v1.8.0"
